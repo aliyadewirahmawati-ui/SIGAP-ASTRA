@@ -1,0 +1,20 @@
+{
+  "center": 400,
+  "start": -400,
+  "end": 1200,
+  "lane_centers": {"outer": 510, "middle": 470, "inner": 430},
+  "outgoing_centers": [290, 330, 370],
+  "stop_line": 257,
+  "exit_clear": 543,
+  "lane_change": {"start": -330, "end": 40, "length": 125},
+  "slip": {
+    "start": [510, 100],
+    "control1": [510, 205],
+    "control2": [595, 290],
+    "end": [700, 290],
+    "yield_before_merge": 125
+  },
+  "road_outline": "M270 -400 H530 V100 C530 194 606 270 700 270 H1200 V530 H700 C606 530 530 606 530 700 V1200 H270 V700 C270 606 194 530 100 530 H-400 V270 H100 C194 270 270 194 270 100 Z",
+  "island": "M492 140 C500 200 541 248 594 264 H496 Q489 264 489 257 V142 Q489 134 492 140 Z",
+  "yield_sign": "M645 238 H671 L658 260 Z"
+}

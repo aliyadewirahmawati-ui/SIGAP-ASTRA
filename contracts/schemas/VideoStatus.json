@@ -1,0 +1,372 @@
+{
+  "$defs": {
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "TrackedVehicle": {
+      "additionalProperties": false,
+      "properties": {
+        "coasted": {
+          "default": false,
+          "title": "Coasted",
+          "type": "boolean"
+        },
+        "track_id": {
+          "minimum": 1,
+          "title": "Track Id",
+          "type": "integer"
+        },
+        "class_name": {
+          "enum": [
+            "car",
+            "motorcycle",
+            "bus",
+            "truck",
+            "ambulance",
+            "fire_truck"
+          ],
+          "title": "Class Name",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "bbox": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Bbox",
+          "type": "array"
+        }
+      },
+      "required": [
+        "coasted",
+        "track_id",
+        "class_name",
+        "confidence",
+        "bbox"
+      ],
+      "title": "TrackedVehicle",
+      "type": "object"
+    },
+    "TrackingView": {
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "enum": [
+            "disabled",
+            "warming",
+            "tracking",
+            "stale",
+            "error"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "source_session": {
+          "format": "uuid",
+          "title": "Source Session",
+          "type": "string"
+        },
+        "frame_id": {
+          "minimum": 0,
+          "title": "Frame Id",
+          "type": "integer"
+        },
+        "age_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Age Seconds"
+        },
+        "processing_fps": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Processing Fps"
+        },
+        "observed_fps": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Fps"
+        },
+        "device": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Device"
+        },
+        "tracks": {
+          "items": {
+            "$ref": "#/$defs/TrackedVehicle"
+          },
+          "title": "Tracks",
+          "type": "array"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "source_session",
+        "frame_id",
+        "age_seconds",
+        "processing_fps",
+        "observed_fps",
+        "device",
+        "tracks",
+        "message"
+      ],
+      "title": "TrackingView",
+      "type": "object"
+    },
+    "VideoCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "upstream_queue_visible": {
+          "default": false,
+          "title": "Upstream Queue Visible",
+          "type": "boolean"
+        },
+        "lanes": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/Point"
+            },
+            "type": "array"
+          },
+          "maxProperties": 3,
+          "minProperties": 3,
+          "propertyNames": {
+            "enum": [
+              "outer",
+              "middle",
+              "inner"
+            ]
+          },
+          "title": "Lanes",
+          "type": "object"
+        },
+        "stop_line": {
+          "items": {
+            "$ref": "#/$defs/Point"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Stop Line",
+          "type": "array"
+        }
+      },
+      "required": [
+        "upstream_queue_visible",
+        "lanes",
+        "stop_line"
+      ],
+      "title": "VideoCalibration",
+      "type": "object"
+    },
+    "VideoChannelView": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "U",
+            "T",
+            "S",
+            "B"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "none",
+            "recording",
+            "live"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_session": {
+          "format": "uuid",
+          "title": "Source Session",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "empty",
+            "ready",
+            "connecting",
+            "playing",
+            "paused",
+            "ended",
+            "error",
+            "stale"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "frame_id": {
+          "title": "Frame Id",
+          "type": "integer"
+        },
+        "loop_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Loop Count",
+          "type": "integer"
+        },
+        "media_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Media Seconds"
+        },
+        "frame_age_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frame Age Seconds"
+        },
+        "live_configured": {
+          "title": "Live Configured",
+          "type": "boolean"
+        },
+        "detection_ready": {
+          "default": false,
+          "title": "Detection Ready",
+          "type": "boolean"
+        },
+        "tracking": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TrackingView"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "calibration": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VideoCalibration"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "direction",
+        "source",
+        "source_session",
+        "state",
+        "label",
+        "frame_id",
+        "loop_count",
+        "media_seconds",
+        "frame_age_seconds",
+        "live_configured",
+        "detection_ready",
+        "tracking",
+        "calibration",
+        "message"
+      ],
+      "title": "VideoChannelView",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "channels": {
+      "items": {
+        "$ref": "#/$defs/VideoChannelView"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Channels",
+      "type": "array"
+    },
+    "preview_fps": {
+      "const": 5,
+      "default": 5,
+      "title": "Preview Fps",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "channels",
+    "preview_fps"
+  ],
+  "title": "VideoStatus",
+  "type": "object"
+}
